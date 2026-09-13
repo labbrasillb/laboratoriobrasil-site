@@ -1,0 +1,23 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const artigos = (await getCollection('artigos', ({ data }) => !data.draft))
+  .sort((a,b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+---
+<BaseLayout title="Artigos" description="Experimentos, propostas e análises do Laboratório Brasil.">
+  <section class="section" style="padding-top:4rem">
+    <div class="container">
+      <div class="section-head"><div><span class="eyebrow">Caderno do laboratório</span><h2>Artigos</h2></div></div>
+      <div class="grid">
+        {artigos.map((artigo) => (
+          <a class="card" href={`/artigos/${artigo.id}`}>
+            <div class="meta">{artigo.data.publishedAt.toLocaleDateString('pt-BR')} · v{artigo.data.version}</div>
+            <h3>{artigo.data.title}</h3>
+            <p>{artigo.data.description}</p>
+            <div>{artigo.data.tags.map((tag) => <span class="tag">{tag}</span>)}</div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

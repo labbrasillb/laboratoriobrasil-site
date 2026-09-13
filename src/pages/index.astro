@@ -1,0 +1,47 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const artigos = (await getCollection('artigos', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
+  .slice(0, 4);
+---
+<BaseLayout>
+  <section class="hero">
+    <div class="container">
+      <span class="eyebrow">🧪 Ideias em teste</span>
+      <h1>Ideias que <span class="accent">conversam</span> com o Brasil.</h1>
+      <p>O Laboratório Brasil é um espaço para trocar ideias, questionar o que já existe e imaginar novas possibilidades para o Brasil.</p>
+      <div class="actions">
+        <a class="button primary" href="/artigos">Explorar artigos</a>
+        <a class="button" href="/metodo">Como funciona o laboratório</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Últimos experimentos</h2>
+        <a href="/artigos">Ver todos →</a>
+      </div>
+      <div class="grid">
+        {artigos.map((artigo) => (
+          <a class="card" href={`/artigos/${artigo.id}`}>
+            <div class="meta">Versão {artigo.data.version} · {artigo.data.status.replace('-', ' ')}</div>
+            <h3>{artigo.data.title}</h3>
+            <p>{artigo.data.description}</p>
+            <div>{artigo.data.tags.slice(0, 3).map((tag) => <span class="tag">{tag}</span>)}</div>
+          </a>
+        ))}
+        {artigos.length === 0 && (
+          <div class="card">
+            <div class="meta">O laboratório está abrindo</div>
+            <h3>O primeiro experimento vem aí.</h3>
+            <p>Os artigos serão publicados com histórico de versões, hipóteses explícitas e espaço para revisão.</p>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

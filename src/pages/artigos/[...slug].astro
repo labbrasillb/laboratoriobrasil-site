@@ -1,0 +1,23 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const artigos = await getCollection('artigos', ({ data }) => !data.draft);
+  return artigos.map((artigo) => ({ params: { slug: artigo.id }, props: { artigo } }));
+}
+
+const { artigo } = Astro.props;
+const { Content } = await render(artigo);
+---
+<BaseLayout title={artigo.data.title} description={artigo.data.description}>
+  <article class="article">
+    <span class="eyebrow">Experimento · v{artigo.data.version}</span>
+    <h1>{artigo.data.title}</h1>
+    <p class="lead">{artigo.data.description}</p>
+    <div class="meta">Publicado em {artigo.data.publishedAt.toLocaleDateString('pt-BR')} · status: {artigo.data.status.replace('-', ' ')}</div>
+    {artigo.data.status !== 'estavel' && <div class="notice"><strong>Artigo vivo.</strong> Esta ideia está aberta a críticas, testes e revisões. Mudanças relevantes recebem uma nova versão.</div>}
+    <div class="prose"><Content /></div>
+    {artigo.data.youtube && <div class="actions"><a class="button primary" href={artigo.data.youtube}>Assistir ao vídeo ↗</a></div>}
+  </article>
+</BaseLayout>
