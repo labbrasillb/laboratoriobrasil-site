@@ -103,10 +103,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     align-items: center;
     gap: 0.9rem;
     padding: 1rem;
-    border: 1px solid var(--border);
+    border: 1px solid var(--color-border);
     border-radius: 14px;
     text-decoration: none;
-    background: var(--surface);
+    background: var(--color-surface);
     transition:
       transform 160ms ease,
       border-color 160ms ease;
@@ -114,7 +114,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
   .contact-social:hover {
     transform: translateY(-2px);
-    border-color: var(--text);
+    border-color: var(--color-text);
   }
 
   .contact-social > span:last-child {
@@ -124,11 +124,11 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   }
 
   .contact-social strong {
-    color: var(--text);
+    color: var(--color-text);
   }
 
   .contact-social small {
-    color: var(--muted);
+    color: var(--color-muted);
   }
 
   .social-icon {
@@ -165,7 +165,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   }
 
   .x-social .social-icon {
-    color: var(--text);
+    color: var(--color-text);
   }
 
   .github .social-icon {
