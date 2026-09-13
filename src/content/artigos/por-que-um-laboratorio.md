@@ -1,10 +1,10 @@
 ---
-title: "Por que um laboratório?"
-description: "O ponto de partida do Laboratório Brasil: ideias devem poder ser explicadas, criticadas e revisadas."
+title: 'Por que um laboratório?'
+description: 'O ponto de partida do Laboratório Brasil: ideias devem poder ser explicadas, criticadas e revisadas.'
 publishedAt: 2026-09-13
-version: "1.0"
-status: "estavel"
-tags: ["projeto", "método"]
+version: '1.0'
+status: 'estavel'
+tags: ['projeto', 'método']
 draft: false
 ---
 

@@ -1,0 +1,26 @@
+---
+import Tag from './Tag.astro';
+
+interface Props {
+  href: string;
+  title: string;
+  description: string;
+  meta: string;
+  tags?: string[];
+}
+
+const { href, title, description, meta, tags = [] } = Astro.props;
+---
+
+<a class="card" href={href}>
+  <div class="meta">{meta}</div>
+  <h3>{title}</h3>
+  <p>{description}</p>
+  {tags.length > 0 && (
+    <div class="tag-list">
+      {tags.map((tag) => (
+        <Tag>{tag}</Tag>
+      ))}
+    </div>
+  )}
+</a>

@@ -8,62 +8,52 @@ Site oficial do **Laboratório Brasil**, um espaço para trocar ideias, question
 
 ## Tecnologia
 
-- [Astro](https://astro.build/) para geração estática
-- Markdown para artigos
+- Astro para geração estática
+- Markdown/Content Collections para artigos
 - Git para histórico e revisão
-- Cloudflare Pages para publicação
+- Cloudflare Workers Static Assets para publicação
 
 A arquitetura é deliberadamente simples: conteúdo estático, sem banco de dados e sem backend permanente.
 
 ## Desenvolvimento local
 
-Requer Node.js 22.12.0 ou superior.
+Use a versão indicada em `.nvmrc`:
 
 ```bash
+nvm use
 npm install
 npm run dev
 ```
 
-Build de produção:
+Comandos do projeto:
 
 ```bash
-npm run build
+npm run dev       # desenvolvimento
+npm run check     # type/check do Astro
+npm run lint      # regras do Design System
+npm run fix       # correções automáticas seguras + formatação
+npm run format    # formata o projeto
+npm run test      # build + smoke tests
+npm run validate  # quality gate completo
+npm run build     # build de produção
 ```
 
 ## Artigos
 
-Os artigos ficam em `src/content/artigos/` e usam frontmatter para registrar metadados como versão, estado da proposta e tags.
+Os artigos ficam em `src/content/artigos/`. Markdown é pequeno e adequado ao Git; binários grandes (vídeos, originais pesados, PDFs grandes) não devem ser versionados no repositório.
 
-Exemplo:
+Por segurança editorial, `draft` é `true` quando omitido. Para publicar, use explicitamente `draft: false`.
 
-```yaml
----
-title: "Título"
-description: "Resumo"
-publishedAt: 2026-09-13
-version: "1.0"
-status: "em-discussao"
-tags: ["tema"]
-draft: false
----
-```
+## Design System
 
-Estados possíveis:
-
-- `rascunho`
-- `em-discussao`
-- `estavel`
+Leia [`DESIGN_SYSTEM.md`](DESIGN_SYSTEM.md). Tokens ficam em `src/styles/tokens.css` e o lint impede padrões que fariam a identidade visual divergir silenciosamente.
 
 ## Contribuições
 
-Leia [`CONTRIBUTING.md`](CONTRIBUTING.md). Críticas, correções e contrapontos são bem-vindos quando ajudam a testar uma ideia de forma objetiva.
+Leia [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Licenciamento
 
-Este repositório separa código, conteúdo editorial e identidade de marca:
-
-- **Código-fonte do site:** [Apache License 2.0](LICENSE)
-- **Artigos e textos editoriais originais:** [Creative Commons Attribution 4.0 International (CC BY 4.0)](CONTENT_LICENSE.md)
-- **Nome, logotipos e identidade visual:** não são licenciados pelas licenças acima; consulte [`TRADEMARKS.md`](TRADEMARKS.md)
-
-Materiais de terceiros continuam sujeitos às respectivas licenças e direitos.
+- **Código-fonte:** [Apache License 2.0](LICENSE)
+- **Conteúdo editorial original:** [CC BY 4.0](CONTENT_LICENSE.md)
+- **Nome, logotipos e identidade visual:** consulte [`TRADEMARKS.md`](TRADEMARKS.md)

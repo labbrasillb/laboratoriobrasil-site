@@ -1,7 +1,7 @@
 name: Problema no site
 description: Relate um erro técnico ou visual.
-title: "[Bug] "
-labels: ["bug"]
+title: '[Bug] '
+labels: ['bug']
 body:
   - type: textarea
     id: descricao

@@ -1,6 +1,10 @@
 ---
 import { getCollection, render } from 'astro:content';
+import ButtonLink from '../../components/ButtonLink.astro';
+import Eyebrow from '../../components/Eyebrow.astro';
+import Notice from '../../components/Notice.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { formatArticleDate, formatArticleStatus } from '../../lib/articles';
 
 export async function getStaticPaths() {
   const artigos = await getCollection('artigos', ({ data }) => !data.draft);
@@ -10,14 +14,38 @@ export async function getStaticPaths() {
 const { artigo } = Astro.props;
 const { Content } = await render(artigo);
 ---
-<BaseLayout title={artigo.data.title} description={artigo.data.description}>
+
+<BaseLayout
+  title={artigo.data.title}
+  description={artigo.data.description}
+  type="article"
+  publishedTime={artigo.data.publishedAt}
+  modifiedTime={artigo.data.updatedAt}
+>
   <article class="article">
-    <span class="eyebrow">Experimento · v{artigo.data.version}</span>
+    <Eyebrow>Experimento · v{artigo.data.version}</Eyebrow>
     <h1>{artigo.data.title}</h1>
     <p class="lead">{artigo.data.description}</p>
-    <div class="meta">Publicado em {artigo.data.publishedAt.toLocaleDateString('pt-BR')} · status: {artigo.data.status.replace('-', ' ')}</div>
-    {artigo.data.status !== 'estavel' && <div class="notice"><strong>Artigo vivo.</strong> Esta ideia está aberta a críticas, testes e revisões. Mudanças relevantes recebem uma nova versão.</div>}
-    <div class="prose"><Content /></div>
-    {artigo.data.youtube && <div class="actions"><a class="button primary" href={artigo.data.youtube}>Assistir ao vídeo ↗</a></div>}
+    <div class="meta">
+      Publicado em {formatArticleDate(artigo.data.publishedAt)} · status:{' '}
+      {formatArticleStatus(artigo.data.status)}
+      {artigo.data.updatedAt && <> · atualizado em {formatArticleDate(artigo.data.updatedAt)}</>}
+    </div>
+    {artigo.data.status !== 'estavel' && (
+      <Notice>
+        <strong>Artigo vivo.</strong> Esta ideia está aberta a críticas, testes e revisões. Mudanças
+        relevantes recebem uma nova versão.
+      </Notice>
+    )}
+    <div class="prose">
+      <Content />
+    </div>
+    {artigo.data.youtube && (
+      <div class="actions">
+        <ButtonLink href={artigo.data.youtube} variant="primary" external>
+          Assistir no YouTube ↗
+        </ButtonLink>
+      </div>
+    )}
   </article>
 </BaseLayout>

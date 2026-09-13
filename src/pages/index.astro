@@ -1,20 +1,32 @@
 ---
 import { getCollection } from 'astro:content';
+import ArticleCard from '../components/ArticleCard.astro';
+import ButtonLink from '../components/ButtonLink.astro';
+import Eyebrow from '../components/Eyebrow.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { formatArticleStatus } from '../lib/articles';
 
 const artigos = (await getCollection('artigos', ({ data }) => !data.draft))
   .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
   .slice(0, 4);
 ---
+
 <BaseLayout>
   <section class="hero">
     <div class="container">
-      <span class="eyebrow">🧪 Ideias em teste</span>
-      <h1>Ideias que <span class="accent">conversam</span> com o Brasil.</h1>
-      <p>O Laboratório Brasil é um espaço para trocar ideias, questionar o que já existe e imaginar novas possibilidades para o Brasil.</p>
+      <Eyebrow>🧪 Ideias em teste</Eyebrow>
+      <h1>
+        Ideias que <span class="accent">conversam</span> com o Brasil.
+      </h1>
+      <p>
+        O Laboratório Brasil é um espaço para trocar ideias, questionar o que já existe e imaginar
+        novas possibilidades para o Brasil.
+      </p>
       <div class="actions">
-        <a class="button primary" href="/artigos">Explorar artigos</a>
-        <a class="button" href="/metodo">Como funciona o laboratório</a>
+        <ButtonLink href="/artigos" variant="primary">
+          Explorar artigos
+        </ButtonLink>
+        <ButtonLink href="/metodo">Como funciona o laboratório</ButtonLink>
       </div>
     </div>
   </section>
@@ -27,19 +39,23 @@ const artigos = (await getCollection('artigos', ({ data }) => !data.draft))
       </div>
       <div class="grid">
         {artigos.map((artigo) => (
-          <a class="card" href={`/artigos/${artigo.id}`}>
-            <div class="meta">Versão {artigo.data.version} · {artigo.data.status.replace('-', ' ')}</div>
-            <h3>{artigo.data.title}</h3>
-            <p>{artigo.data.description}</p>
-            <div>{artigo.data.tags.slice(0, 3).map((tag) => <span class="tag">{tag}</span>)}</div>
-          </a>
+          <ArticleCard
+            href={`/artigos/${artigo.id}`}
+            title={artigo.data.title}
+            description={artigo.data.description}
+            meta={`Versão ${artigo.data.version} · ${formatArticleStatus(artigo.data.status)}`}
+            tags={artigo.data.tags.slice(0, 3)}
+          />
         ))}
         {artigos.length === 0 && (
-          <div class="card">
+          <article class="card card--static">
             <div class="meta">O laboratório está abrindo</div>
             <h3>O primeiro experimento vem aí.</h3>
-            <p>Os artigos serão publicados com histórico de versões, hipóteses explícitas e espaço para revisão.</p>
-          </div>
+            <p>
+              Os artigos serão publicados com histórico de versões, hipóteses explícitas e espaço
+              para revisão.
+            </p>
+          </article>
         )}
       </div>
     </div>

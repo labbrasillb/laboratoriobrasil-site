@@ -1,0 +1,115 @@
+---
+interface Props {
+  platform: 'youtube' | 'instagram' | 'x' | 'github';
+  name: string;
+  handle: string;
+  href: string;
+}
+
+const { platform, name, handle, href } = Astro.props;
+---
+
+<a
+  class:list={['social-card', `social-card--${platform}`]}
+  href={href}
+  target="_blank"
+  rel="me noopener noreferrer"
+>
+  <span class="social-card__icon" aria-hidden="true">
+    {platform === 'youtube' && (
+      <svg viewBox="0 0 24 24">
+        <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4L15.8 12l-6.2 3.6Z" />
+      </svg>
+    )}
+    {platform === 'instagram' && (
+      <svg viewBox="0 0 24 24">
+        <rect x="3" y="3" width="18" height="18" rx="5" ry="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.5" cy="6.5" r="1" />
+      </svg>
+    )}
+    {platform === 'x' && (
+      <svg viewBox="0 0 24 24">
+        <path d="M18.9 2H22l-6.8 7.8L23 22h-6.1l-4.8-6.3L6.6 22H3.5l7.1-8.1L3 2h6.3l4.3 5.7L18.9 2Zm-1.1 17.8h1.7L8.4 4.1H6.6l11.2 15.7Z" />
+      </svg>
+    )}
+    {platform === 'github' && (
+      <svg viewBox="0 0 24 24">
+        <path d="M12 .7a11.6 11.6 0 0 0-3.7 22.6c.6.1.8-.3.8-.6v-2.3c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.9 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.1v3.1c0 .3.2.7.8.6A11.6 11.6 0 0 0 12 .7Z" />
+      </svg>
+    )}
+  </span>
+  <span class="social-card__copy">
+    <strong>{name}</strong>
+    <small>{handle}</small>
+  </span>
+</a>
+
+<style>
+  .social-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    text-decoration: none;
+    transition:
+      transform var(--motion-fast) ease,
+      border-color var(--motion-fast) ease,
+      box-shadow var(--motion-fast) ease;
+  }
+
+  .social-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-text);
+    box-shadow: var(--shadow-card);
+  }
+
+  .social-card__icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+  }
+
+  .social-card__icon svg {
+    width: 1.6rem;
+    height: 1.6rem;
+    fill: currentColor;
+  }
+
+  .social-card--instagram .social-card__icon svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+  }
+
+  .social-card--youtube .social-card__icon {
+    color: var(--social-youtube);
+  }
+  .social-card--instagram .social-card__icon {
+    color: var(--social-instagram);
+  }
+  .social-card--x .social-card__icon {
+    color: var(--social-x);
+  }
+  .social-card--github .social-card__icon {
+    color: var(--social-github);
+  }
+
+  .social-card__copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .social-card__copy strong {
+    color: var(--color-text);
+  }
+  .social-card__copy small {
+    color: var(--color-muted);
+  }
+</style>

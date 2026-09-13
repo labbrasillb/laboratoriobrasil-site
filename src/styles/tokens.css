@@ -1,42 +1,41 @@
 :root {
   color-scheme: light;
 
-  /* Brand */
   --brand-blue: #0b63ce;
   --brand-green: #0f9f6e;
   --brand-yellow: #f5b800;
 
-  /* Semantic colors */
   --color-bg: #fbfcfe;
   --color-surface: #ffffff;
   --color-surface-soft: #f3f6fa;
   --color-text: #15213a;
   --color-muted: #5b6679;
   --color-border: #e6eaf0;
-
   --color-tag-bg: #f0f4f8;
   --color-tag-text: #4b5565;
   --color-quote-bg: #f5faf8;
   --color-notice-bg: #fffaf0;
   --color-notice-border: #f0d37a;
-  --color-header-bg: rgba(251, 252, 254, .88);
+  --color-header-bg: rgba(251, 252, 254, 0.88);
   --color-icon-hover: #eef3f9;
-  --color-x: #111111;
+  --focus-ring: #0b63ce;
 
-  /* Layout */
+  --social-youtube: #ff0033;
+  --social-instagram: #e1306c;
+  --social-x: #111111;
+  --social-github: #6e5494;
+
   --layout-max: 1120px;
   --layout-article: 760px;
 
-  /* Radius */
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 20px;
   --radius-pill: 999px;
 
-  /* Spacing */
-  --space-1: .25rem;
-  --space-2: .5rem;
-  --space-3: .75rem;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
   --space-4: 1rem;
   --space-5: 1.25rem;
   --space-6: 1.5rem;
@@ -47,16 +46,14 @@
   --space-20: 5rem;
   --space-24: 6rem;
 
-  /* Motion */
   --motion-fast: 160ms;
   --motion-normal: 180ms;
 
-  /* Elevation */
   --shadow-card: 0 12px 36px rgba(21, 33, 58, 0.08);
-  --shadow-card-hover: 0 16px 40px rgba(21, 33, 58, .11);
+  --shadow-card-hover: 0 16px 40px rgba(21, 33, 58, 0.11);
 }
 
-:root[data-theme="dark"] {
+:root[data-theme='dark'] {
   color-scheme: dark;
 
   --brand-blue: #68a7ff;
@@ -69,16 +66,17 @@
   --color-text: #edf3fb;
   --color-muted: #a8b4c5;
   --color-border: #263244;
-
   --color-tag-bg: #1c2838;
   --color-tag-text: #c0cad8;
   --color-quote-bg: #10241f;
   --color-notice-bg: #2a2413;
   --color-notice-border: #6a5620;
-  --color-header-bg: rgba(12, 17, 27, .88);
+  --color-header-bg: rgba(12, 17, 27, 0.88);
   --color-icon-hover: #202b3b;
-  --color-x: #f4f7fb;
+  --focus-ring: #68a7ff;
 
-  --shadow-card: 0 12px 36px rgba(0, 0, 0, .24);
-  --shadow-card-hover: 0 16px 40px rgba(0, 0, 0, .32);
+  --social-x: #f4f7fb;
+
+  --shadow-card: 0 12px 36px rgba(0, 0, 0, 0.24);
+  --shadow-card-hover: 0 16px 40px rgba(0, 0, 0, 0.32);
 }

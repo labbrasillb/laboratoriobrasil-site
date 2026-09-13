@@ -6,9 +6,15 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
+    "check": "astro check",
+    "lint": "node scripts/check-design-system.mjs",
+    "fix": "node scripts/fix-design-system.mjs && prettier --write .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "build": "astro check && astro build",
-    "preview": "astro preview",
-    "check": "astro check"
+    "test": "astro build && node --test",
+    "validate": "npm run lint && npm run check && npm run format:check && npm run test",
+    "preview": "astro preview"
   },
   "dependencies": {
     "@astrojs/check": "0.9.4",
@@ -16,9 +22,14 @@
     "typescript": "5.9.2"
   },
   "engines": {
-    "node": ">=24.21.0"
+    "node": ">=24.21.0 <25"
   },
   "allowScripts": {
     "esbuild": true
+  },
+  "packageManager": "npm@11.19.0",
+  "devDependencies": {
+    "prettier": "^3.9.6",
+    "prettier-plugin-astro": "^1.0.0"
   }
 }

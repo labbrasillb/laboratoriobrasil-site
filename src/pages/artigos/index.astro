@@ -1,23 +1,44 @@
 ---
 import { getCollection } from 'astro:content';
+import ArticleCard from '../../components/ArticleCard.astro';
+import EmptyState from '../../components/EmptyState.astro';
+import Eyebrow from '../../components/Eyebrow.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-const artigos = (await getCollection('artigos', ({ data }) => !data.draft))
-  .sort((a,b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+import { formatArticleDate } from '../../lib/articles';
+
+const artigos = (await getCollection('artigos', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
+);
 ---
+
 <BaseLayout title="Artigos" description="Experimentos, propostas e análises do Laboratório Brasil.">
-  <section class="section" style="padding-top:4rem">
+  <section class="section section--page-start">
     <div class="container">
-      <div class="section-head"><div><span class="eyebrow">Caderno do laboratório</span><h2>Artigos</h2></div></div>
-      <div class="grid">
-        {artigos.map((artigo) => (
-          <a class="card" href={`/artigos/${artigo.id}`}>
-            <div class="meta">{artigo.data.publishedAt.toLocaleDateString('pt-BR')} · v{artigo.data.version}</div>
-            <h3>{artigo.data.title}</h3>
-            <p>{artigo.data.description}</p>
-            <div>{artigo.data.tags.map((tag) => <span class="tag">{tag}</span>)}</div>
-          </a>
-        ))}
+      <div class="section-head">
+        <div>
+          <Eyebrow>Caderno do laboratório</Eyebrow>
+          <h1>Artigos</h1>
+        </div>
       </div>
+
+      {artigos.length > 0 ? (
+        <div class="grid">
+          {artigos.map((artigo) => (
+            <ArticleCard
+              href={`/artigos/${artigo.id}`}
+              title={artigo.data.title}
+              description={artigo.data.description}
+              meta={`${formatArticleDate(artigo.data.publishedAt)} · v${artigo.data.version}`}
+              tags={artigo.data.tags}
+            />
+          ))}
+        </div>
+      ) : (
+        <EmptyState
+          title="Nenhum artigo publicado ainda."
+          description="Os próximos experimentos aparecerão aqui quando estiverem prontos para discussão."
+        />
+      )}
     </div>
   </section>
 </BaseLayout>

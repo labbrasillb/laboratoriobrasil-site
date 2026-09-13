@@ -1,9 +1,15 @@
+---
+import { SITE } from '../config/site';
+---
+
 <footer>
   <div class="container footer-content">
     <div class="footer-copy">
-      <strong>Laboratório Brasil</strong>
-      <span>Ideias que conversam com o Brasil.</span>
-      <span>© {new Date().getFullYear()} Laboratório Brasil</span>
+      <strong>{SITE.name}</strong>
+      <span>{SITE.tagline}</span>
+      <span>
+        © {new Date().getFullYear()} {SITE.name}
+      </span>
     </div>
 
     <div class="footer-links">

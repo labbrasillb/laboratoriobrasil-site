@@ -10,4 +10,6 @@ Explique o problema ou melhoria que motivou a mudança.
 
 - [ ] Mantive a alteração focada.
 - [ ] Não incluí segredos ou dados pessoais.
-- [ ] Validei o build local quando aplicável.
+- [ ] Reutilizei o Design System em vez de criar padrões paralelos.
+- [ ] Validei light/dark e responsividade quando alterei UI.
+- [ ] Rodei `npm run validate` com sucesso.

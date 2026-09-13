@@ -1,7 +1,7 @@
 name: Crítica de artigo
 description: Aponte uma falha, caso-limite ou melhoria em uma proposta publicada.
-title: "[Artigo] "
-labels: ["artigo", "discussão"]
+title: '[Artigo] '
+labels: ['artigo', 'discussão']
 body:
   - type: input
     id: artigo

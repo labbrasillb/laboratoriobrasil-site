@@ -1,21 +1,31 @@
-# Deploy no Cloudflare Pages
+# Deploy no Cloudflare Workers
+
+O site é gerado estaticamente pelo Astro e publicado com **Workers Static Assets**.
 
 ## Build
 
-- Framework preset: **Astro**
+- Node.js: versão definida em `.nvmrc`
 - Build command: `npm run build`
 - Output directory: `dist`
-- Node.js: 22.12.0 ou superior
+- Deploy command: `npx wrangler deploy`
 
-## Domínio
-
-Depois que o primeiro deploy em `*.pages.dev` estiver funcionando, adicione:
-
-- `laboratoriobrasil.com.br`
-- `www.laboratoriobrasil.com.br`
-
-Escolha um como canônico e redirecione o outro.
+O `wrangler.toml` aponta `[assets].directory` para `./dist`.
 
 ## Git
 
-O deploy deve ser conectado ao branch `main`. Cada push aprovado para `main` publica uma nova versão estática do site.
+- `main`: produção
+- `develop`: homologação/preview
+- `feature/*`: desenvolvimento/preview
+
+Antes de promover uma mudança:
+
+```bash
+npm ci
+npm run validate
+```
+
+O CI executa a mesma validação nos pull requests.
+
+## Domínio
+
+Produção usa `https://laboratoriobrasil.com.br`. URLs `workers.dev` recebem `X-Robots-Tag: noindex, nofollow` por `public/_headers` para evitar conteúdo duplicado em mecanismos de busca.
