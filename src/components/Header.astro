@@ -1,0 +1,22 @@
+---
+import SocialLinks from './SocialLinks.astro';
+import ThemeToggle from './ThemeToggle.astro';
+---
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="/" aria-label="Laboratório Brasil — início">
+      <img src="/assets/logo-lb.png" alt="" width="44" height="44" />
+      <span>Laboratório Brasil</span>
+    </a>
+
+    <div class="header-actions">
+      <nav class="nav-links" aria-label="Navegação principal">
+        <a href="/artigos">Artigos</a>
+        <a href="/metodo">Método</a>
+        <a href="/sobre">Sobre</a>
+      </nav>
+      <SocialLinks className="header-socials" />
+      <ThemeToggle />
+    </div>
+  </div>
+</header>

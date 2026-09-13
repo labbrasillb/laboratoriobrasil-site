@@ -1,0 +1,33 @@
+<button class="theme-toggle" type="button" aria-label="Alternar entre modo claro e escuro" title="Alternar tema" data-theme-toggle>
+  <svg class="theme-icon theme-icon--sun" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 4.5a1 1 0 0 0 1-1V2a1 1 0 1 0-2 0v1.5a1 1 0 0 0 1 1Zm0 15a1 1 0 0 0-1 1V22a1 1 0 1 0 2 0v-1.5a1 1 0 0 0-1-1ZM4.5 12a1 1 0 0 0-1-1H2a1 1 0 1 0 0 2h1.5a1 1 0 0 0 1-1Zm17.5-1h-1.5a1 1 0 1 0 0 2H22a1 1 0 1 0 0-2ZM5.64 7.05a1 1 0 0 0 1.41-1.41L5.99 4.58A1 1 0 0 0 4.58 6l1.06 1.05Zm12.72 9.9a1 1 0 1 0-1.41 1.41l1.06 1.06A1 1 0 0 0 19.42 18l-1.06-1.05Zm0-9.9L19.42 6a1 1 0 0 0-1.41-1.42l-1.06 1.06a1 1 0 0 0 1.41 1.41ZM5.64 16.95 4.58 18a1 1 0 0 0 1.41 1.42l1.06-1.06a1 1 0 0 0-1.41-1.41ZM12 6.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"/>
+  </svg>
+  <svg class="theme-icon theme-icon--moon" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M20.7 15.1A8.5 8.5 0 0 1 8.9 3.3 9.5 9.5 0 1 0 20.7 15.1Z"/>
+  </svg>
+</button>
+<script is:inline>
+  const toggle = document.querySelector('[data-theme-toggle]');
+  const root = document.documentElement;
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
+
+  const currentTheme = () => root.dataset.theme || 'light';
+  const updateThemeColor = (theme) => themeMeta?.setAttribute('content', theme === 'dark' ? '#0c111b' : '#fbfcfe');
+  const updateLabel = (theme) => {
+    if (!toggle) return;
+    const next = theme === 'dark' ? 'claro' : 'escuro';
+    toggle.setAttribute('aria-label', `Ativar modo ${next}`);
+    toggle.setAttribute('title', `Ativar modo ${next}`);
+  };
+
+  updateThemeColor(currentTheme());
+  updateLabel(currentTheme());
+
+  toggle?.addEventListener('click', () => {
+    const next = currentTheme() === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    localStorage.setItem('lb-theme', next);
+    updateThemeColor(next);
+    updateLabel(next);
+  });
+</script>
