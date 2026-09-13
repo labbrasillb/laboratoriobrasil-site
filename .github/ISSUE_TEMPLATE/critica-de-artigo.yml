@@ -1,0 +1,33 @@
+name: Crítica de artigo
+description: Aponte uma falha, caso-limite ou melhoria em uma proposta publicada.
+title: "[Artigo] "
+labels: ["artigo", "discussão"]
+body:
+  - type: input
+    id: artigo
+    attributes:
+      label: Artigo
+      description: Informe o título ou link do artigo.
+    validations:
+      required: true
+  - type: textarea
+    id: ponto
+    attributes:
+      label: Qual ponto está sendo questionado?
+    validations:
+      required: true
+  - type: textarea
+    id: problema
+    attributes:
+      label: Qual é o problema ou caso-limite?
+    validations:
+      required: true
+  - type: textarea
+    id: evidencia
+    attributes:
+      label: Evidência, exemplo ou referência
+      description: Opcional, mas muito útil quando houver.
+  - type: textarea
+    id: sugestao
+    attributes:
+      label: Que mudança você sugere?
