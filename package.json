@@ -1,0 +1,25 @@
+{
+  "name": "laboratoriobrasil-site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/check": "0.9.4",
+    "astro": "7.3.2",
+    "typescript": "5.9.2"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "allowScripts": {
+    "esbuild": true
+  }
+}
