@@ -226,6 +226,10 @@ test('AdSense está configurado de forma consistente', () => {
     assert.ok(html.includes('data-ad-layout="in-article"'), `${route} sem unidade In-article`);
     const slots = html.match(/data-ad-slot="8387700367"/g) ?? [];
     assert.equal(slots.length, 1, `${route} deve possuir exatamente uma unidade In-article`);
+    assert.ok(
+      html.includes("status === 'unfilled'") && html.includes('placement.hidden = true'),
+      `${route} deve ocultar o espaço quando o AdSense retornar unfilled`
+    );
   }
 });
 

@@ -32,6 +32,30 @@ const slotId = SITE.adsense.slots.inArticle;
       prose.append(placement);
     }
 
+    const adUnit = placement.querySelector('.adsbygoogle');
+
+    if (adUnit instanceof HTMLElement) {
+      const syncVisibility = () => {
+        const status = adUnit.dataset.adStatus;
+
+        if (status === 'unfilled') {
+          placement.hidden = true;
+          return;
+        }
+
+        if (status === 'filled') {
+          placement.hidden = false;
+        }
+      };
+
+      new MutationObserver(syncVisibility).observe(adUnit, {
+        attributes: true,
+        attributeFilter: ['data-ad-status'],
+      });
+
+      syncVisibility();
+    }
+
     (window.adsbygoogle = window.adsbygoogle || []).push({});
   })();
 </script>
