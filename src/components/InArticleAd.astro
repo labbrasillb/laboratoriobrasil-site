@@ -1,0 +1,37 @@
+---
+import { SITE } from '../config/site';
+
+const slotId = SITE.adsense.slots.inArticle;
+---
+
+<aside class="ad-placement" aria-label="Publicidade">
+  <span class="ad-label">Publicidade</span>
+  <ins
+    class="adsbygoogle ad-unit"
+    data-ad-layout="in-article"
+    data-ad-format="fluid"
+    data-ad-client={SITE.adsense.clientId}
+    data-ad-slot={slotId}
+  ></ins>
+</aside>
+
+<script is:inline>
+  (() => {
+    const script = document.currentScript;
+    const placement = script?.previousElementSibling;
+    const prose = document.querySelector('.article .prose');
+
+    if (!(placement instanceof HTMLElement) || !(prose instanceof HTMLElement)) return;
+
+    const paragraphs = prose.querySelectorAll(':scope > p');
+    const anchor = paragraphs[1] ?? paragraphs[0];
+
+    if (anchor) {
+      anchor.after(placement);
+    } else {
+      prose.append(placement);
+    }
+
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
+  })();
+</script>

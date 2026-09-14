@@ -38,6 +38,10 @@ npm run validate  # quality gate completo
 npm run build     # build de produção
 ```
 
+## Fluxo Git
+
+O projeto usa **GitHub Flow**: `main` é a única branch permanente. O trabalho acontece em branches curtas `feature/*`, `fix/*`, `chore/*` e `article/*`, sempre integradas em `main` por Pull Request. Não existe branch `develop`. Veja [`CONTRIBUTING.md`](CONTRIBUTING.md) e [`DEPLOY.md`](DEPLOY.md).
+
 ## Artigos
 
 Os artigos ficam em `src/content/artigos/`. Markdown é pequeno e adequado ao Git; binários grandes (vídeos, originais pesados, PDFs grandes) não devem ser versionados no repositório.

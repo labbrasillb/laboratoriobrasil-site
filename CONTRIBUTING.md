@@ -2,6 +2,21 @@
 
 O melhor tipo de contribuição é aquela que ajuda a testar uma ideia.
 
+## Fluxo Git
+
+Este repositório usa **GitHub Flow**. `main` é a única branch permanente e deve permanecer publicável. Não existe `develop` e o trabalho não deve ser feito diretamente em `main`.
+
+Crie branches curtas a partir de `main` usando apenas estes prefixos:
+
+- `feature/*` para funcionalidades;
+- `fix/*` para correções;
+- `chore/*` para manutenção e tarefas técnicas;
+- `article/*` para trabalho editorial.
+
+Toda mudança deve voltar para `main` por Pull Request. O CI executa o quality gate e o PR pode ser integrado por squash para manter um commit lógico por mudança. Depois da integração, a branch curta deve ser removida.
+
+O fluxo completo de publicação está em [`DEPLOY.md`](DEPLOY.md).
+
 ## Antes de enviar um PR
 
 ```bash

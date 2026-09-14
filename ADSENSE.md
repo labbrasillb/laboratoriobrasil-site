@@ -50,3 +50,9 @@ No estado inicial do projeto:
 ## Privacidade
 
 A página `/privacidade` já informa o possível uso do Google AdSense, cookies e tecnologias semelhantes. Antes de ampliar publicidade personalizada ou atender públicos sujeitos a regimes específicos de consentimento, a configuração de consentimento/CMP deve ser revisada no painel do Google e refletida na política publicada.
+
+## Unidade In-article
+
+Os artigos publicados exibem uma unidade manual **In-article** com slot `8387700367`. O componente `src/components/InArticleAd.astro` usa o client ID centralizado e posiciona o bloco após o segundo parágrafo direto do conteúdo do artigo. Se o artigo tiver menos parágrafos, o bloco é colocado após o primeiro ou ao fim do conteúdo.
+
+O script principal do AdSense continua sendo carregado apenas uma vez pelo `BaseLayout.astro`; a unidade executa somente o `adsbygoogle.push({})` necessário para solicitar o anúncio. Auto Ads pode permanecer desativado.

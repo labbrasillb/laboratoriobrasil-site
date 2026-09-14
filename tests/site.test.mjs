@@ -218,4 +218,27 @@ test('AdSense está configurado de forma consistente', () => {
       `${route} sem crossorigin=anonymous no script do AdSense`
     );
   }
+
+  const articleFiles = htmlFiles().filter((file) => routeFromHtml(file).startsWith('/artigos/'));
+  for (const file of articleFiles) {
+    const html = read(file);
+    const route = routeFromHtml(file);
+    assert.ok(html.includes('data-ad-layout="in-article"'), `${route} sem unidade In-article`);
+    const slots = html.match(/data-ad-slot="8387700367"/g) ?? [];
+    assert.equal(slots.length, 1, `${route} deve possuir exatamente uma unidade In-article`);
+  }
+});
+
+test('configuração do repositório segue GitHub Flow sem develop', () => {
+  const workflow = read('.github/workflows/ci.yml');
+  const dependabot = read('.github/dependabot.yml');
+  const contributing = read('CONTRIBUTING.md');
+
+  assert.ok(!/^[ \t-]*develop\s*$/m.test(workflow), 'CI ainda referencia develop');
+  assert.ok(!dependabot.includes('target-branch: develop'), 'Dependabot ainda aponta para develop');
+  assert.ok(contributing.includes('`main` é a única branch permanente'));
+  assert.ok(contributing.includes('`feature/*`'));
+  assert.ok(contributing.includes('`fix/*`'));
+  assert.ok(contributing.includes('`chore/*`'));
+  assert.ok(contributing.includes('`article/*`'));
 });

@@ -9,6 +9,9 @@ export const SITE = {
   adsense: {
     clientId: 'ca-pub-2610603380020880',
     publisherId: 'pub-2610603380020880',
+    slots: {
+      inArticle: '8387700367',
+    },
   },
   socials: [
     {
