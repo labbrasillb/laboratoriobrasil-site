@@ -6,6 +6,10 @@ export const SITE = {
     'Um espaço para trocar ideias, questionar o que já existe e imaginar novas possibilidades para o Brasil.',
   locale: 'pt-BR',
   ogLocale: 'pt_BR',
+  adsense: {
+    clientId: 'ca-pub-2610603380020880',
+    publisherId: 'pub-2610603380020880',
+  },
   socials: [
     {
       platform: 'youtube',

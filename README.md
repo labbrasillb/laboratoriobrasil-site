@@ -48,6 +48,10 @@ Por segurança editorial, `draft` é `true` quando omitido. Para publicar, use e
 
 Leia [`DESIGN_SYSTEM.md`](DESIGN_SYSTEM.md). Tokens ficam em `src/styles/tokens.css` e o lint impede padrões que fariam a identidade visual divergir silenciosamente.
 
+## Publicidade
+
+A integração do Google AdSense está documentada em [`ADSENSE.md`](ADSENSE.md). O ID da conta fica centralizado na configuração do site, o script é carregado pelo layout global e o `ads.txt` é publicado a partir de `public/ads.txt`.
+
 ## Contribuições
 
 Leia [`CONTRIBUTING.md`](CONTRIBUTING.md).

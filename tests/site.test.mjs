@@ -58,6 +58,7 @@ const requiredFiles = [
   'dist/sitemap.xml',
   'dist/robots.txt',
   'dist/_headers',
+  'dist/ads.txt',
 ];
 
 test('gera todas as rotas públicas essenciais', () => {
@@ -182,4 +183,39 @@ test('workers.dev recebe noindex por header', () => {
   const headers = read('dist/_headers');
   assert.ok(headers.includes('workers.dev/*'));
   assert.ok(headers.includes('X-Robots-Tag: noindex, nofollow'));
+});
+
+test('AdSense está configurado de forma consistente', () => {
+  const clientId = 'ca-pub-2610603380020880';
+  const publisherId = 'pub-2610603380020880';
+  const expectedAdsTxt = `google.com, ${publisherId}, DIRECT, f08c47fec0942fa0`;
+
+  assert.equal(
+    read('dist/ads.txt').trim(),
+    expectedAdsTxt,
+    'ads.txt divergente do publisher esperado'
+  );
+
+  for (const file of htmlFiles()) {
+    const html = read(file);
+    const route = routeFromHtml(file);
+    const scriptTags = html.match(/<script\b[^>]*>/gi) ?? [];
+    const adsenseScripts = scriptTags.filter((tag) =>
+      tag.includes(
+        `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${clientId}`
+      )
+    );
+
+    assert.equal(
+      adsenseScripts.length,
+      1,
+      `${route} deve carregar o script do AdSense exatamente uma vez`
+    );
+    assert.match(adsenseScripts[0], /\sasync(?:\s|>)/i, `${route} sem async no script do AdSense`);
+    assert.match(
+      adsenseScripts[0],
+      /\scrossorigin=["']anonymous["']/i,
+      `${route} sem crossorigin=anonymous no script do AdSense`
+    );
+  }
 });
