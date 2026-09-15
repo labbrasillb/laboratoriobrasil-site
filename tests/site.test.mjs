@@ -196,7 +196,21 @@ test('AdSense está configurado de forma consistente', () => {
     'ads.txt divergente do publisher esperado'
   );
 
-  for (const file of htmlFiles()) {
+  const articleFiles = htmlFiles().filter((file) => routeFromHtml(file).startsWith('/artigos/'));
+  const nonArticleFiles = htmlFiles().filter(
+    (file) => !routeFromHtml(file).startsWith('/artigos/')
+  );
+
+  for (const file of nonArticleFiles) {
+    const html = read(file);
+    const route = routeFromHtml(file);
+    assert.ok(
+      !html.includes('pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'),
+      `${route} não deve carregar AdSense sem possuir unidade de anúncio`
+    );
+  }
+
+  for (const file of articleFiles) {
     const html = read(file);
     const route = routeFromHtml(file);
     const scriptTags = html.match(/<script\b[^>]*>/gi) ?? [];
@@ -217,12 +231,6 @@ test('AdSense está configurado de forma consistente', () => {
       /\scrossorigin=["']anonymous["']/i,
       `${route} sem crossorigin=anonymous no script do AdSense`
     );
-  }
-
-  const articleFiles = htmlFiles().filter((file) => routeFromHtml(file).startsWith('/artigos/'));
-  for (const file of articleFiles) {
-    const html = read(file);
-    const route = routeFromHtml(file);
     assert.ok(html.includes('data-ad-layout="in-article"'), `${route} sem unidade In-article`);
     const slots = html.match(/data-ad-slot="8387700367"/g) ?? [];
     assert.equal(slots.length, 1, `${route} deve possuir exatamente uma unidade In-article`);
@@ -272,4 +280,44 @@ test('diagramas editoriais usam Mermaid e a leitura possui largura ampliada', ()
     tokens.includes('--layout-article: 1040px'),
     'largura editorial ampliada não foi aplicada'
   );
+});
+
+test('assets críticos usam payload enxuto e CSS não bloqueia renderização', () => {
+  const home = read('dist/index.html');
+  const header = read('src/components/Header.astro');
+  const config = read('astro.config.mjs');
+  const headers = read('dist/_headers');
+
+  assert.ok(
+    header.includes('/assets/logo-lb.f347d33c.webp'),
+    'header deve usar logo WebP otimizado'
+  );
+  assert.ok(!home.includes('/assets/logo-lb.png'), 'home ainda referencia o PNG grande do logo');
+  assert.ok(
+    config.includes("inlineStylesheets: 'always'"),
+    'CSS crítico deve ser inline para evitar bloqueio de renderização'
+  );
+  assert.ok(headers.includes('/assets/*'), 'assets estáticos sem política explícita de cache');
+  assert.ok(
+    headers.includes('/assets/*') && headers.includes('max-age=31536000, immutable'),
+    'assets versionados devem usar cache imutável'
+  );
+  assert.ok(
+    headers.includes('/_astro/*') && headers.includes('max-age=31536000, immutable'),
+    'assets versionados do Astro devem usar cache imutável'
+  );
+});
+
+test('Worker aplica hardening HTTP e CSP estrita com nonce por resposta', () => {
+  const worker = read('worker/index.js');
+  const wrangler = read('wrangler.toml');
+
+  assert.ok(wrangler.includes('main = "./worker/index.js"'), 'Worker de segurança não configurado');
+  assert.ok(wrangler.includes('binding = "ASSETS"'), 'binding ASSETS ausente');
+  assert.ok(wrangler.includes('run_worker_first = true'), 'Worker deve processar respostas HTML');
+  assert.ok(worker.includes("'Strict-Transport-Security': 'max-age=31536000; includeSubDomains'"));
+  assert.ok(worker.includes("'Cross-Origin-Opener-Policy': 'same-origin'"));
+  assert.ok(worker.includes("'Content-Security-Policy'"));
+  assert.ok(worker.includes("'strict-dynamic'"), 'CSP deve usar strict-dynamic');
+  assert.ok(worker.includes("element.setAttribute('nonce', value)"), 'scripts devem receber nonce');
 });

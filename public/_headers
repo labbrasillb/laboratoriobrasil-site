@@ -1,8 +1,22 @@
+# Fallback para servidores que entreguem os assets sem executar worker/index.js.
+# No Cloudflare Workers, os headers de segurança são aplicados dinamicamente pelo Worker
+# para permitir uma CSP estrita com nonce por resposta.
 /*
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Cross-Origin-Opener-Policy: same-origin
 
 https://:version.:subdomain.workers.dev/*
   X-Robots-Tag: noindex, nofollow
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/favicon.png
+  Cache-Control: public, max-age=604800
