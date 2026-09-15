@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import ButtonLink from '../../components/ButtonLink.astro';
 import Eyebrow from '../../components/Eyebrow.astro';
 import InArticleAd from '../../components/InArticleAd.astro';
+import MermaidRenderer from '../../components/MermaidRenderer.astro';
 import Notice from '../../components/Notice.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { formatArticleDate, formatArticleStatus } from '../../lib/articles';
@@ -42,6 +43,7 @@ const { Content } = await render(artigo);
       <Content />
     </div>
     <InArticleAd />
+    <MermaidRenderer />
     {artigo.data.youtube && (
       <div class="actions">
         <ButtonLink href={artigo.data.youtube} variant="primary" external>

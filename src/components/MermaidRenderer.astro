@@ -1,0 +1,81 @@
+<script is:inline type="module">
+  const diagrams = [...document.querySelectorAll('[data-mermaid-diagram] .mermaid')];
+
+  if (diagrams.length > 0) {
+    const MERMAID_URL = 'https://cdn.jsdelivr.net/npm/mermaid@12.0.0/dist/mermaid.esm.min.mjs';
+    const sources = new Map(
+      diagrams.map((diagram) => [diagram, diagram.textContent?.trim() ?? ''])
+    );
+    let rendering = false;
+    let queued = false;
+
+    const themeConfig = () => {
+      const rootStyle = getComputedStyle(document.documentElement);
+      const bodyStyle = getComputedStyle(document.body);
+      const token = (name) => rootStyle.getPropertyValue(name).trim();
+
+      return {
+        theme: 'base',
+        themeVariables: {
+          background: token('--color-bg'),
+          primaryColor: token('--color-surface'),
+          primaryTextColor: token('--color-text'),
+          primaryBorderColor: token('--brand-blue'),
+          lineColor: token('--color-muted'),
+          secondaryColor: token('--color-surface-soft'),
+          tertiaryColor: token('--color-quote-bg'),
+          edgeLabelBackground: token('--color-bg'),
+          fontFamily: bodyStyle.fontFamily,
+        },
+      };
+    };
+
+    const renderDiagrams = async () => {
+      if (rendering) {
+        queued = true;
+        return;
+      }
+
+      rendering = true;
+      try {
+        const { default: mermaid } = await import(MERMAID_URL);
+
+        for (const diagram of diagrams) {
+          diagram.removeAttribute('data-processed');
+          diagram.textContent = sources.get(diagram) ?? '';
+        }
+
+        mermaid.initialize({
+          startOnLoad: false,
+          securityLevel: 'strict',
+          ...themeConfig(),
+          flowchart: {
+            htmlLabels: true,
+            curve: 'basis',
+            nodeSpacing: 42,
+            rankSpacing: 52,
+            padding: 18,
+          },
+        });
+
+        await mermaid.run({ nodes: diagrams });
+      } catch (error) {
+        console.error('Falha ao renderizar diagrama Mermaid.', error);
+      } finally {
+        rendering = false;
+        if (queued) {
+          queued = false;
+          await renderDiagrams();
+        }
+      }
+    };
+
+    await renderDiagrams();
+
+    new MutationObserver((mutations) => {
+      if (mutations.some((mutation) => mutation.attributeName === 'data-theme')) {
+        renderDiagrams();
+      }
+    }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  }
+</script>

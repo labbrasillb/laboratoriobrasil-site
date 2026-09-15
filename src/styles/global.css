@@ -380,6 +380,58 @@ button {
   background: var(--color-quote-bg);
 }
 
+.mermaid-diagram {
+  width: 100%;
+  margin: var(--space-10) 0;
+  padding: var(--space-6);
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-soft);
+}
+.mermaid-diagram .mermaid {
+  display: flex;
+  min-width: 100%;
+  justify-content: center;
+  color: var(--color-text);
+  font-family: inherit;
+  text-align: center;
+  white-space: pre-wrap;
+}
+.mermaid-diagram svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.article-example {
+  width: 100%;
+  margin: var(--space-6) 0;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-soft);
+}
+.article-example figcaption {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.article-example pre {
+  margin: 0;
+  padding: var(--space-4);
+  overflow-x: auto;
+  background: transparent;
+  color: var(--color-text);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.96em;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
 .ad-placement {
   margin: var(--space-10) 0;
   text-align: center;

@@ -78,14 +78,11 @@ Se um candidato perdeu no domingo, seus apoiadores não podem começar a segunda
 
 Por isso, toda eleição inicia um período de **um ano de estabilidade absoluta contra recall**.
 
-```text
-ELEIÇÃO
-   ↓
-VENCEDOR ASSUME
-   ↓
-1 ANO SEM RECALL
-   ↓
-ABERTURA DO SISTEMA DE RECALL
+```mermaid
+flowchart TD
+    A["ELEIÇÃO"] --> B["VENCEDOR ASSUME"]
+    B --> C["1 ANO SEM RECALL"]
+    C --> D["ABERTURA DO SISTEMA DE RECALL"]
 ```
 
 Durante esse primeiro ano, não existe contador. Não existe coleta de manifestações. Não existe pedido acumulado esperando a abertura do mecanismo.
@@ -190,14 +187,11 @@ Os registros daquela janela são encerrados.
 
 E uma nova janela de 90 dias começa imediatamente.
 
-```text
-menos de 30%
-      ↓
-resultado publicado
-      ↓
-janela encerrada
-      ↓
-nova janela imediatamente
+```mermaid
+flowchart TD
+    A["MENOS DE 30%"] --> B["RESULTADO PUBLICADO"]
+    B --> C["JANELA ENCERRADA"]
+    C --> D["NOVA JANELA IMEDIATAMENTE"]
 ```
 
 ### 30% ou mais, mas abaixo da maioria absoluta
@@ -216,16 +210,12 @@ Por isso existe o limite intermediário de 30%.
 
 Se a contestação alcançou pelo menos 30%, mas não chegou à maioria absoluta, o mandato recebe **90 dias de proteção** antes de uma nova janela.
 
-```text
-30% até abaixo da maioria absoluta
-                ↓
-         recall não acontece
-                ↓
-          janela encerrada
-                ↓
-      90 dias sem novo recall
-                ↓
-        nova janela depois
+```mermaid
+flowchart TD
+    A["30% ATÉ ABAIXO DA MAIORIA ABSOLUTA"] --> B["RECALL NÃO ACONTECE"]
+    B --> C["JANELA ENCERRADA"]
+    C --> D["90 DIAS SEM NOVO RECALL"]
+    D --> E["NOVA JANELA DEPOIS"]
 ```
 
 É uma espécie de período de resfriamento.
@@ -466,22 +456,15 @@ Não consegue entregá-lo a outra pessoa.
 
 A credencial existe apenas dentro da infraestrutura e serve para liberar a participação na cabine.
 
-```text
-ELEITOR CHEGA AO PONTO
-        ↓
-AUTENTICAÇÃO / BIOMETRIA
-        ↓
-confirma identidade e elegibilidade
-        ↓
-deriva credencial-base anônima da janela
-        ↓
-eleitor nunca conhece a credencial
-        ↓
-CABINE PRIVADA
-        ↓
-registra as manifestações desejadas
-        ↓
-vai embora
+```mermaid
+flowchart TD
+    A["ELEITOR CHEGA AO PONTO"] --> B["AUTENTICAÇÃO / BIOMETRIA"]
+    B --> C["CONFIRMA IDENTIDADE E ELEGIBILIDADE"]
+    C --> D["DERIVA CREDENCIAL-BASE ANÔNIMA DA JANELA"]
+    D --> E["ELEITOR NUNCA CONHECE A CREDENCIAL"]
+    E --> F["CABINE PRIVADA"]
+    F --> G["REGISTRA AS MANIFESTAÇÕES DESEJADAS"]
+    G --> H["VAI EMBORA"]
 ```
 
 Isso separa duas coisas que não deveriam morar juntas.
@@ -492,7 +475,7 @@ O sistema que registra a escolha precisa saber apenas que recebeu uma manifesta�
 
 A arquitetura deve ser desenhada para impedir que esses dois lados sejam simplesmente reunidos depois em uma tabela do tipo:
 
-```text
+```example title="Exemplo de associação que o sistema não deve produzir"
 CPF 123.456.789-00
 → pediu recall de Presidente A
 → pediu recall de Senador B
@@ -510,17 +493,10 @@ Isso é importante porque o eleitor pode mudar de opinião sobre outra autoridad
 
 Imagine:
 
-```text
-dia 10
-→ pede recall do Presidente A
-
-dia 35
-→ volta ao ponto
-→ pede recall do Senador B
-
-dia 70
-→ volta novamente
-→ pede recall do Deputado C
+```mermaid
+flowchart LR
+    A["DIA 10<br/>Pede recall do Presidente A"] --> B["DIA 35<br/>Volta ao ponto e pede recall do Senador B"]
+    B --> C["DIA 70<br/>Volta novamente e pede recall do Deputado C"]
 ```
 
 Tudo isso é permitido.
@@ -529,14 +505,10 @@ O que não é permitido é usar visitas diferentes para registrar várias manife
 
 Por isso, para cada alvo, o sistema deriva um identificador específico a partir da credencial-base, da janela e da autoridade escolhida.
 
-```text
-credencial-base + janela + Presidente A
-                    ↓
-             identificador X91...
-
-credencial-base + janela + Senador B
-                    ↓
-             identificador Q44...
+```mermaid
+flowchart LR
+    A["Credencial-base + janela + Presidente A"] --> B["Identificador X91..."]
+    C["Credencial-base + janela + Senador B"] --> D["Identificador Q44..."]
 ```
 
 Se o eleitor voltar no dia seguinte e tentar novamente contra o Presidente A, o sistema chega ao mesmo identificador `X91...` e rejeita a duplicidade.
@@ -619,7 +591,7 @@ Cada manifestação aceita pode produzir um compromisso criptográfico em um reg
 
 Algo conceitualmente assim:
 
-```text
+```example title="Exemplo de registros públicos anonimizados"
 8F29B41...
 A9210CE...
 337DA09...
@@ -638,7 +610,7 @@ Quando a janela termina, os dados anonimizados necessários à apuração podem 
 
 Um exemplo simplificado:
 
-```text
+```example title="Exemplo simplificado de dados para auditoria"
 Município X
 Janela 2030-Q2
 
@@ -682,14 +654,11 @@ Ela provoca **uma nova eleição**.
 
 E o político submetido ao recall pode concorrer novamente.
 
-```text
-oposição frauda o recall
-        ↓
-nova eleição
-        ↓
-governante vence novamente
-        ↓
-novo ano de estabilidade
+```mermaid
+flowchart TD
+    A["OPOSIÇÃO FRAUDA O RECALL"] --> B["NOVA ELEIÇÃO"]
+    B --> C["GOVERNANTE VENCE NOVAMENTE"]
+    C --> D["NOVO ANO DE ESTABILIDADE"]
 ```
 
 A oposição pode cometer um crime, gastar enorme capital político e ainda terminar fortalecendo o adversário que pretendia derrubar.
@@ -700,14 +669,11 @@ Um governante muito popular poderia imaginar que vale a pena fabricar o próprio
 
 Só que provocar a eleição não significa controlar seu resultado.
 
-```text
-governante frauda o próprio recall
-        ↓
-nova eleição
-        ↓
-eleitorado recebe oportunidade real de substituí-lo
-        ↓
-ele pode perder o cargo
+```mermaid
+flowchart TD
+    A["GOVERNANTE FRAUDA O PRÓPRIO RECALL"] --> B["NOVA ELEIÇÃO"]
+    B --> C["ELEITORADO RECEBE OPORTUNIDADE REAL DE SUBSTITUÍ-LO"]
+    C --> D["ELE PODE PERDER O CARGO"]
 ```
 
 Isso não elimina o incentivo à fraude e muito menos substitui segurança, auditoria e responsabilização criminal.
@@ -922,18 +888,13 @@ Não pode existir:
 
 O gatilho precisa ser objetivo.
 
-```text
-maioria absoluta certificada
-           ↓
-prazo constitucional começou
-           ↓
-convocação válida aconteceu?
-        /          \
-      SIM          NÃO
-       ↓            ↓
- processo       prazo termina
- eleitoral          ↓
- normal        gatilho automático
+```mermaid
+flowchart TD
+    A["MAIORIA ABSOLUTA CERTIFICADA"] --> B["PRAZO CONSTITUCIONAL COMEÇOU"]
+    B --> C{"CONVOCAÇÃO VÁLIDA ACONTECEU?"}
+    C -->|SIM| D["PROCESSO ELEITORAL NORMAL"]
+    C -->|NÃO| E["PRAZO TERMINA"]
+    E --> F["GATILHO AUTOMÁTICO"]
 ```
 
 Se o prazo acabou, acabou.
@@ -982,49 +943,26 @@ Só então a garantia final seria utilizada.
 
 Por isso a arquitetura não é:
 
-```text
-POVO
- ↓
-MILITARES
+```mermaid
+flowchart TD
+    A["POVO"] --> B["MILITARES"]
 ```
 
 Ela é:
 
-```text
-POVO
- ↓
-MAIORIA ABSOLUTA
- ↓
-RECALL OBRIGATÓRIO
- ↓
-ESTADO CUMPRE?
- │
- ├── SIM
- │    ↓
- │  ELEIÇÃO
- │
- └── NÃO
-      ↓
- RECALL GERAL
-      ↓
- TODA A ESTRUTURA
- PASSA A TER ALGO
- A PERDER
-      ↓
- ESTADO CUMPRE?
- │
- ├── SIM
- │    ↓
- │  ELEIÇÃO
- │
- └── NÃO
-      ↓
- GARANTIA FINAL
-      ↓
- MÁQUINA ELEITORAL
- É OBRIGADA A FUNCIONAR
-      ↓
- ELEITORES DECIDEM
+```mermaid
+flowchart TD
+    A["POVO"] --> B["MAIORIA ABSOLUTA"]
+    B --> C["RECALL OBRIGATÓRIO"]
+    C --> D{"ESTADO CUMPRE?"}
+    D -->|SIM| E["ELEIÇÃO"]
+    D -->|NÃO| F["RECALL GERAL"]
+    F --> G["TODA A ESTRUTURA PASSA A TER ALGO A PERDER"]
+    G --> H{"ESTADO CUMPRE?"}
+    H -->|SIM| I["ELEIÇÃO"]
+    H -->|NÃO| J["GARANTIA FINAL"]
+    J --> K["MÁQUINA ELEITORAL É OBRIGADA A FUNCIONAR"]
+    K --> L["ELEITORES DECIDEM"]
 ```
 
 No final da cadeia, o poder não termina em quartel.
