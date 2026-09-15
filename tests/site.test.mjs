@@ -246,3 +246,30 @@ test('configuração do repositório segue GitHub Flow sem develop', () => {
   assert.ok(contributing.includes('`chore/*`'));
   assert.ok(contributing.includes('`article/*`'));
 });
+
+test('diagramas editoriais usam Mermaid e a leitura possui largura ampliada', () => {
+  const article = read('dist/artigos/e-se-o-mandato-politico-pudesse-voltar-as-urnas/index.html');
+  const diagramCount = (article.match(/data-mermaid-diagram/g) ?? []).length;
+  const source = read('src/content/artigos/e-se-o-mandato-politico-pudesse-voltar-as-urnas.md');
+  const tokens = read('src/styles/tokens.css');
+
+  assert.ok(
+    diagramCount >= 10,
+    `esperava pelo menos 10 diagramas Mermaid; encontrou ${diagramCount}`
+  );
+  assert.ok(source.includes('```mermaid'), 'artigo não possui blocos Mermaid');
+  assert.ok(source.includes('```example'), 'artigo não possui exemplos editoriais');
+  assert.ok(
+    article.includes('class=\"article-example\"'),
+    'exemplos editoriais não foram transformados em blocos semânticos'
+  );
+  assert.ok(
+    !article.includes('language-text'),
+    'exemplos conceituais voltaram a ser renderizados como bloco de código'
+  );
+  assert.ok(!source.includes('POVO\n ↓\nMILITARES'), 'fluxograma ASCII antigo ainda está presente');
+  assert.ok(
+    tokens.includes('--layout-article: 1040px'),
+    'largura editorial ampliada não foi aplicada'
+  );
+});
