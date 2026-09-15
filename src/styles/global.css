@@ -245,6 +245,7 @@ button {
 }
 .accent {
   background: linear-gradient(90deg, var(--brand-blue), var(--brand-green));
+  background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
 }

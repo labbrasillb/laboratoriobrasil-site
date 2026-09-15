@@ -48,4 +48,4 @@ O CI executa a mesma validação nos Pull Requests e em pushes para `main`.
 
 ## Domínio
 
-Produção usa `https://laboratoriobrasil.com.br`. URLs `workers.dev` recebem `X-Robots-Tag: noindex, nofollow` por `public/_headers` para evitar conteúdo duplicado em mecanismos de busca.
+Produção usa `https://laboratoriobrasil.com.br`. URLs `workers.dev` recebem `X-Robots-Tag: noindex, nofollow` pelo Worker para evitar conteúdo duplicado em mecanismos de busca. O mesmo Worker aplica HSTS, COOP e uma CSP estrita com nonce por resposta; `public/_headers` permanece como fallback para hospedagem puramente estática.
