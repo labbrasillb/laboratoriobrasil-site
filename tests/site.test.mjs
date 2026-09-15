@@ -190,6 +190,15 @@ test('AdSense está configurado de forma consistente', () => {
   const publisherId = 'pub-2610603380020880';
   const expectedAdsTxt = `google.com, ${publisherId}, DIRECT, f08c47fec0942fa0`;
 
+  for (const file of htmlFiles()) {
+    const html = read(file);
+    const route = routeFromHtml(file);
+    assert.ok(
+      html.includes(`<meta name="google-adsense-account" content="${clientId}">`),
+      `${route} deve expor a metatag global de verificação do AdSense`
+    );
+  }
+
   assert.equal(
     read('dist/ads.txt').trim(),
     expectedAdsTxt,
